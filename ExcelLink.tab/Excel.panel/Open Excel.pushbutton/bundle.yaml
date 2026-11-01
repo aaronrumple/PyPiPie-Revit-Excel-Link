@@ -1,0 +1,8 @@
+title: Open Excel
+tooltip: >-
+  Open the workbook linked to the active view in Excel, at the linked sheet and
+  range. Works on drafting views, legends and sheets (looks through the views
+  placed on the sheet). Select a linked table first to open that one; if a view
+  links several workbooks you choose which to open.
+author: Excel Link
+context: doc-project

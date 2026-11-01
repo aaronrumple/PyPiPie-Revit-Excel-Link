@@ -1,0 +1,129 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Excel Link - Import" Width="1040" Height="720" MinWidth="760" MinHeight="500"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False" FontFamily="Segoe UI" FontSize="12">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Column="0" Margin="0,0,10,0" VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="Workbook" FontWeight="SemiBold"/>
+            <DockPanel Margin="0,3,0,10">
+                <Button x:Name="browse_b" Content="Browse..." DockPanel.Dock="Right" Width="70" Margin="4,0,0,0" Click="browse_click"/>
+                <TextBox x:Name="path_tb" IsReadOnly="True" VerticalContentAlignment="Center" Height="24"/>
+            </DockPanel>
+
+            <Border x:Name="sheets_box" Background="{DynamicResource XL.Panel}" BorderBrush="{DynamicResource XL.Border}" BorderThickness="1" Padding="8" Margin="0,0,0,10">
+                <StackPanel>
+                    <DockPanel>
+                        <TextBlock Text="Sheets to import" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="All" Width="40" Height="20" Margin="0,0,4,0" Click="check_all_click" FontSize="11"/>
+                            <Button Content="None" Width="44" Height="20" Click="check_none_click" FontSize="11"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <TextBlock x:Name="sheets_lbl" TextWrapping="Wrap" Foreground="{DynamicResource XL.SubFg}" Margin="0,4,0,0"
+                               Text="Tick sheet tabs under the preview. With none ticked, the tab you are viewing is imported."/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock x:Name="range_hdr" Text="Range" FontWeight="SemiBold"/>
+            <RadioButton x:Name="auto_rb" Margin="0,4,0,0" GroupName="rng" IsChecked="True" Checked="range_mode_changed">
+                <TextBlock x:Name="auto_lbl" Text="Print area / used range (follows the sheet)" TextWrapping="Wrap"/>
+            </RadioButton>
+            <DockPanel Margin="0,4,0,10">
+                <RadioButton x:Name="fixed_rb" GroupName="rng" Content="Fixed:" VerticalAlignment="Center" Checked="range_mode_changed"/>
+                <TextBox x:Name="range_tb" Margin="6,0,0,0" Height="24" VerticalContentAlignment="Center" IsEnabled="False" LostFocus="range_edited" KeyUp="range_key"/>
+            </DockPanel>
+
+            <TextBlock Text="Include" FontWeight="SemiBold"/>
+            <WrapPanel Margin="0,4,0,10">
+                <CheckBox x:Name="fills_cb" Content="Fills" IsChecked="True" Margin="0,0,12,4" Click="opt_changed"/>
+                <CheckBox x:Name="borders_cb" Content="Borders" IsChecked="True" Margin="0,0,12,4" Click="opt_changed"/>
+                <CheckBox x:Name="text_cb" Content="Text" IsChecked="True" Margin="0,0,12,4" Click="opt_changed"/>
+                <CheckBox x:Name="grid_cb" Content="Gridlines" Margin="0,0,12,4" Click="opt_changed"/>
+                <CheckBox x:Name="hidden_cb" Content="Hidden rows/columns" Margin="0,0,12,4" Click="opt_changed"/>
+            </WrapPanel>
+
+            <TextBlock Text="Revit line weights (pen numbers)" FontWeight="SemiBold"/>
+            <Grid Margin="0,4,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/><ColumnDefinition/><ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,4,0"><TextBlock Text="Thin / hair"/><ComboBox x:Name="w_thin" Height="22"/></StackPanel>
+                <StackPanel Grid.Column="1" Margin="2,0,2,0"><TextBlock Text="Medium"/><ComboBox x:Name="w_medium" Height="22"/></StackPanel>
+                <StackPanel Grid.Column="2" Margin="4,0,0,0"><TextBlock Text="Thick"/><ComboBox x:Name="w_thick" Height="22"/></StackPanel>
+            </Grid>
+
+            <StackPanel x:Name="views_panel">
+                <TextBlock Text="Create a new view per sheet" FontWeight="SemiBold"/>
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,6">
+                    <RadioButton x:Name="kind_draft_rb" GroupName="kind" Content="Drafting view" IsChecked="True" Margin="0,0,16,0" Checked="kind_changed"/>
+                    <RadioButton x:Name="kind_legend_rb" GroupName="kind" Content="Legend" Checked="kind_changed"/>
+                </StackPanel>
+                <DockPanel Margin="0,0,0,2">
+                    <TextBlock Text="Name" VerticalAlignment="Center" Width="48"/>
+                    <TextBox x:Name="vname_tb" Height="24" VerticalContentAlignment="Center" Text="{}{sheet}" TextChanged="vname_changed"/>
+                </DockPanel>
+                <TextBlock Text="Tokens: {sheet}  {workbook}" Foreground="{DynamicResource XL.SubFg}" FontSize="11" Margin="48,0,0,4"/>
+                <DockPanel Margin="0,0,0,2">
+                    <TextBlock x:Name="vtype_lbl" Text="Type" VerticalAlignment="Center" Width="48"/>
+                    <Button x:Name="vtype_new_b" DockPanel.Dock="Right" Content="+" Width="26" Height="24" Padding="0" Margin="4,0,0,0"
+                            FontSize="14" Click="new_type_click" ToolTip="New drafting view type..."/>
+                    <ComboBox x:Name="vtype_cb" Height="24"/>
+                </DockPanel>
+                <TextBlock x:Name="kind_note" TextWrapping="Wrap" Foreground="{DynamicResource XL.SubFg}" FontSize="11" Margin="48,2,0,10"/>
+            </StackPanel>
+
+            <Border Background="{DynamicResource XL.Panel}" BorderBrush="{DynamicResource XL.Border}" BorderThickness="1" Padding="8" Margin="0,0,0,8">
+                <TextBlock x:Name="size_lbl" TextWrapping="Wrap" Text="-"/>
+            </Border>
+            <TextBlock x:Name="warn_lbl" TextWrapping="Wrap" Foreground="{DynamicResource XL.Warn}"/>
+        </StackPanel>
+        </ScrollViewer>
+
+        <DockPanel Grid.Column="1">
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0" LastChildFill="False">
+                <Button x:Name="help_b" Content="Help" Width="64" Height="30" Margin="0,0,14,0" Click="help_click" ToolTip="Open Excel Link help (F1)"/>
+                <TextBlock Text="Zoom" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <ComboBox x:Name="zoom_cb" Width="70" SelectionChanged="zoom_changed"/>
+                <Button x:Name="cancel_b" Content="Cancel" DockPanel.Dock="Right" Width="90" Height="30" Margin="6,0,0,0" IsCancel="True" Click="cancel_click"/>
+                <Button x:Name="ok_b" Content="Import" DockPanel.Dock="Right" MinWidth="120" Height="30" Padding="10,0" IsDefault="True" Click="ok_click"/>
+            </DockPanel>
+            <!-- Excel-style sheet tabs -->
+            <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource XL.Border}" BorderThickness="1,0,1,1" Background="{DynamicResource XL.TabStrip}">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center" Margin="3,3,6,3">
+                        <Button Content="&#x25C0;" Width="24" Height="22" Padding="0" FontSize="9" Margin="0,0,2,0" Click="tabs_left_click" ToolTip="Scroll tabs left"/>
+                        <Button Content="&#x25B6;" Width="24" Height="22" Padding="0" FontSize="9" Margin="0,0,2,0" Click="tabs_right_click" ToolTip="Scroll tabs right"/>
+                        <Button x:Name="tabs_list_b" Content="&#x2630;" Width="26" Height="22" Padding="0" Click="tabs_list_click" ToolTip="All sheets (Ctrl+PgUp / Ctrl+PgDn to switch)"/>
+                    </StackPanel>
+                    <TextBlock x:Name="tabs_count" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="8,0,8,0" Foreground="{DynamicResource XL.SubFg}" FontSize="11"/>
+                    <!-- tabs and their scrollbar share one column, so the bar spans exactly the tab area (like the preview's) -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer x:Name="tabs_sv" Grid.Row="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled"
+                                      PreviewMouseWheel="tabs_wheel" ScrollChanged="tabs_scrolled">
+                            <StackPanel x:Name="tabs_sp" Orientation="Horizontal"/>
+                        </ScrollViewer>
+                        <ScrollBar x:Name="tabs_sb" Grid.Row="1" Orientation="Horizontal" Visibility="Collapsed"
+                                   SmallChange="40" Scroll="tabs_scroll"/>
+                    </Grid>
+                </DockPanel>
+            </Border>
+            <Border BorderBrush="{DynamicResource XL.Border}" BorderThickness="1" Background="{DynamicResource XL.Canvas}">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <Border Background="White" Margin="16" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Canvas x:Name="preview" ClipToBounds="True"/>
+                    </Border>
+                </ScrollViewer>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>

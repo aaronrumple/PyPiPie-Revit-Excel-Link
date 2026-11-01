@@ -1,0 +1,8 @@
+title: Import Excel
+tooltip: >-
+  Import one or more Excel worksheets at 1:1 print size, keeping fonts, colours,
+  borders and fills. Each sheet gets its own new drafting view, with the table
+  as a detail group linked to the workbook so it can be updated when the
+  spreadsheet changes.
+author: Excel Link
+context: doc-project

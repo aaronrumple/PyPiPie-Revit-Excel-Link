@@ -1,0 +1,7 @@
+title: Excel Links
+tooltip: >-
+  List every Excel Link in the model with its status. Update, change the
+  workbook, sheet or range, open the workbook in Excel, find the group, or
+  unlink it.
+author: Excel Link
+context: doc-project

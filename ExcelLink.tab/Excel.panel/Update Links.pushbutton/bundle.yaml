@@ -1,0 +1,7 @@
+title: Update Links
+tooltip: >-
+  Rebuild Excel Link groups from their workbooks. Updates the selected linked
+  groups, or every link whose workbook has changed when nothing is selected.
+  Groups keep their position, even if you moved them.
+author: Excel Link
+context: doc-project
