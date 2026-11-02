@@ -19,14 +19,14 @@ LIGHT = {
     'Fg': '1E1E1E', 'SubFg': '5F6670', 'Button': 'FAFAFA', 'Hover': 'DCEAF7',
     'Select': 'C5DDF3', 'Accent': '0696D7', 'Thumb': 'B0B6BF', 'Warn': 'A0522D',
     'TabStrip': 'E1E1E1', 'Tab': 'EBEBEB', 'TabSel': 'FFFFFF', 'TabText': '333333',
-    'TabAccent': '217346', 'Canvas': 'D9DCE0',
+    'TabAccent': '217346', 'Canvas': 'D9DCE0', 'Header': 'E4E7EB',
 }
 DARK = {
     'Bg': '3B4453', 'Panel': '323A47', 'Input': '2A303B', 'Border': '566173',
     'Fg': 'EEF1F5', 'SubFg': 'A9B3C2', 'Button': '465163', 'Hover': '4F5B6E',
     'Select': '2F5F86', 'Accent': '1F8FD1', 'Thumb': '6A7587', 'Warn': 'F0B467',
     'TabStrip': '2A303B', 'Tab': '343C4A', 'TabSel': '4A5568', 'TabText': 'D7DCE4',
-    'TabAccent': '6CC28F', 'Canvas': '252A33',
+    'TabAccent': '6CC28F', 'Canvas': '252A33', 'Header': '2E3542',
 }
 
 

@@ -4,5 +4,6 @@ tooltip: >-
   range. Works on drafting views, legends and sheets (looks through the views
   placed on the sheet). Select a linked table first to open that one; if a view
   links several workbooks you choose which to open.
-author: Excel Link
+author: Aaron Rumple, AIA
 context: doc-project
+help_url: "https://github.com/aaronrumple/PyPiPie-Revit-Excel-Link"

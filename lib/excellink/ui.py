@@ -42,6 +42,49 @@ ALLOWED_VIEWS = (DB.ViewType.DraftingView, DB.ViewType.Legend, DB.ViewType.Detai
 # --------------------------------------------------------------------------
 # helpers
 # --------------------------------------------------------------------------
+def brand(window, help_section):
+    """PyPiPie branding shared with Rover: app icon, drawn title bar with
+    help / maximize / close, and the 'Crafted by' credit in the status bar."""
+    from System import Uri
+    from System.Windows import WindowState
+    from System.Windows.Media.Imaging import BitmapImage
+    try:
+        img = BitmapImage(Uri(os.path.join(HERE, 'excellink.png')))
+        window.Icon = img
+        window.TitleIcon.Source = img
+    except Exception:
+        pass
+    try:
+        from . import __version__
+        window.VersionLabel.Text = 'Excel Link %s' % __version__
+    except Exception:
+        pass
+
+    def on_state(sender, args):
+        maxed = window.WindowState == WindowState.Maximized
+        window.RootGrid.Margin = Thickness(7) if maxed else Thickness(0)  # maximized chrome overhangs the screen
+        window.CapMax.Content = u'\ue923' if maxed else u'\ue922'
+        window.CapMax.ToolTip = 'Restore' if maxed else 'Maximize'
+
+    def toggle_max(sender, args):
+        window.WindowState = WindowState.Normal if window.WindowState == WindowState.Maximized \
+            else WindowState.Maximized
+
+    def open_link(sender, args):
+        try:
+            from System.Diagnostics import Process
+            Process.Start(args.Uri.AbsoluteUri)
+        except Exception:
+            pass
+        args.Handled = True
+
+    window.CapHelp.Click += lambda s_, a_: open_help(help_section)
+    window.CapMax.Click += toggle_max
+    window.CapClose.Click += lambda s_, a_: window.Close()
+    window.StateChanged += on_state
+    window.CreditLink.RequestNavigate += open_link
+
+
 def open_help(section=None):
     """Open the help page in the default browser at *section*, themed like Revit.
 
@@ -243,6 +286,7 @@ class ImportWindow(forms.WPFWindow):
     def __init__(self, link_data=None, view=None):
         forms.WPFWindow.__init__(self, os.path.join(HERE, 'ImportWindow.xaml'))
         self.pal = theme.apply(self)
+        brand(self, 'import')
         self.PreviewKeyDown += self._key_down
         self.edit = link_data is not None
         self.view = view
@@ -278,6 +322,7 @@ class ImportWindow(forms.WPFWindow):
 
         if self.edit:
             self.Title = 'Excel Link - Edit link'
+            self.TitleSub.Text = 'Edit link'
             self.ok_b.Content = 'Update link'
             self.sheets_box.Visibility = Visibility.Collapsed
             self.views_panel.Visibility = Visibility.Collapsed
@@ -925,6 +970,7 @@ class ManagerWindow(forms.WPFWindow):
     def __init__(self):
         forms.WPFWindow.__init__(self, os.path.join(HERE, 'ManagerWindow.xaml'))
         self.pal = theme.apply(self)
+        brand(self, 'manager')
         self.PreviewKeyDown += self._key_down
         self.reload()
 

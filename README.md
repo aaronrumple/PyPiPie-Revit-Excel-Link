@@ -1,8 +1,12 @@
-# PyPiPie Revit Excel Link
+<p align="center"><img src="lib/excellink/excellink.png" width="128" alt="Excel Link"></p>
 
-A pyRevit extension that imports Excel worksheets into Revit drafting views and legends **with visual fidelity**: fonts, colours, borders, fills, merged cells, number formats and alignment. Tables come in at **1:1 printed size** and stay **linked to the workbook** so they can be updated when the spreadsheet changes.
+# Excel Link
 
-The workbook is read directly; Excel doesn't need to be installed.
+Crafted by: [Aaron Rumple, AIA](https://www.linkedin.com/in/aaronrumple/)
+
+A [pyRevit](https://github.com/pyrevitlabs/pyRevit) extension that imports Excel worksheets into Revit drafting views and legends **with visual fidelity**: fonts, colours, borders, fills, merged cells, number formats and alignment. Tables come in at **1:1 printed size** and stay **linked to the workbook** so they can be updated when the spreadsheet changes.
+
+The workbook is read directly; Excel doesn't need to be installed. Part of the PyPiPie tools.
 
 ## Features
 
@@ -13,7 +17,7 @@ The workbook is read directly; Excel doesn't need to be installed.
 - **Linked and updatable**: each table is a detail group carrying its link (Extensible Storage). **Update Links** redraws changed tables in place, even after they've been moved.
 - **ACC / Autodesk Docs** through Desktop Connector: links resolve under each user's own `DC` folder, so they work for the whole project team.
 - **Open Excel** jumps from a Revit view straight to the linked sheet and range.
-- **Light and dark** windows following Revit's UI theme.
+- **Light and dark** windows following Revit's UI theme, with the PyPiPie title bar and help (**?** or <kbd>F1</kbd>).
 
 ## Buttons
 
@@ -64,7 +68,7 @@ To uninstall, delete the folder and reload pyRevit. Tables already imported stay
 
 Try it with `samples/Excel Link Test Workbook.xlsx`, which has one sheet per feature plus a door schedule and finish legend.
 
-Full documentation: [`help/ExcelLink_Help.html`](help/ExcelLink_Help.html), also opened by the **Help** button or <kbd>F1</kbd> in either window.
+Full documentation: [`help/ExcelLink_Help.html`](help/ExcelLink_Help.html), also opened by **?** in the title bar or <kbd>F1</kbd> in either window.
 
 ## Limitations
 
@@ -98,7 +102,8 @@ lib/excellink/
     layout.py                  worksheet range -> fills, border segments, text in paper points
     revit_build.py             Revit elements and styles from a layout
     link.py                    link storage, change detection, import/update, path resolution
-    theme.py, Theme.xaml       light/dark theming following Revit
+    theme.py, Theme.xaml       light/dark theming following Revit; branded title bar styles
+    excellink.png              app logo (window icon, help, README)
     ui.py, *.xaml              import window, manager, commands
 help/ExcelLink_Help.html       user guide
 samples/                       test workbooks
@@ -108,4 +113,6 @@ samples/                       test workbooks
 
 ## License
 
-[GNU General Public License v3.0](LICENSE).
+GPL-3.0. See [LICENSE](LICENSE).
+
+© 2026 [Aaron Rumple, AIA](https://www.linkedin.com/in/aaronrumple/)

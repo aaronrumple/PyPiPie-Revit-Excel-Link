@@ -4,5 +4,6 @@ tooltip: >-
   borders and fills. Each sheet gets its own new drafting view, with the table
   as a detail group linked to the workbook so it can be updated when the
   spreadsheet changes.
-author: Excel Link
+author: Aaron Rumple, AIA
 context: doc-project
+help_url: "https://github.com/aaronrumple/PyPiPie-Revit-Excel-Link"

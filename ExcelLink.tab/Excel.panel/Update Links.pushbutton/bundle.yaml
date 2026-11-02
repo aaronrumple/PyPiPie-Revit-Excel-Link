@@ -3,5 +3,6 @@ tooltip: >-
   Rebuild Excel Link groups from their workbooks. Updates the selected linked
   groups, or every link whose workbook has changed when nothing is selected.
   Groups keep their position, even if you moved them.
-author: Excel Link
+author: Aaron Rumple, AIA
 context: doc-project
+help_url: "https://github.com/aaronrumple/PyPiPie-Revit-Excel-Link"

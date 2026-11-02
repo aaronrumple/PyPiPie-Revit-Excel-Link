@@ -3,5 +3,6 @@ tooltip: >-
   List every Excel Link in the model with its status. Update, change the
   workbook, sheet or range, open the workbook in Excel, find the group, or
   unlink it.
-author: Excel Link
+author: Aaron Rumple, AIA
 context: doc-project
+help_url: "https://github.com/aaronrumple/PyPiPie-Revit-Excel-Link"

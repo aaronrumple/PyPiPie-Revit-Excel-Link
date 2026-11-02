@@ -1,1 +1,18 @@
-{"name": "ExcelLink", "type": "extension", "description": "Import Excel ranges into Revit drafting views and legends with visual fidelity, kept linked for updates."}
+{
+    "extensions": [
+        {
+            "builtin": "False",
+            "default_enabled": "True",
+            "type": "extension",
+            "rocket_mode_compatible": "False",
+            "name": "ExcelLink",
+            "description": "Import Excel worksheets into Revit drafting views and legends with visual fidelity (fonts, colours, borders, fills, number formats) at 1:1 print size, kept linked so tables update when the workbook changes. Supports ACC/Autodesk Docs through Desktop Connector. Follows Revit's dark/light theme.",
+            "author": "Aaron Rumple",
+            "author_profile": "https://github.com/aaronrumple",
+            "url": "https://github.com/aaronrumple/PyPiPie-Revit-Excel-Link.git",
+            "website": "https://github.com/aaronrumple/PyPiPie-Revit-Excel-Link",
+            "image": "https://raw.githubusercontent.com/aaronrumple/PyPiPie-Revit-Excel-Link/main/lib/excellink/excellink.png",
+            "dependencies": []
+        }
+    ]
+}

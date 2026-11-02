@@ -1,30 +1,70 @@
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Excel Links" Width="1000" Height="460" MinWidth="700" MinHeight="300"
-        WindowStartupLocation="CenterScreen" ShowInTaskbar="False" FontFamily="Segoe UI" FontSize="12">
-    <DockPanel Margin="10">
-        <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0" LastChildFill="False">
-            <Button Content="Update" Width="80" Height="28" Margin="0,0,6,0" Click="update_click" ToolTip="Rebuild the selected links from their workbooks"/>
-            <Button Content="Update all changed" Width="130" Height="28" Margin="0,0,6,0" Click="update_changed_click"/>
-            <Button Content="Edit..." Width="70" Height="28" Margin="0,0,6,0" Click="edit_click" ToolTip="Change workbook, sheet, range or options"/>
-            <Button Content="Open in Excel" Width="100" Height="28" Margin="0,0,6,0" Click="open_click"/>
-            <Button Content="Show" Width="70" Height="28" Margin="0,0,6,0" Click="show_click" ToolTip="Select and zoom to the group"/>
-            <Button Content="Unlink" Width="70" Height="28" Margin="0,0,6,0" Click="unlink_click" ToolTip="Keep the elements, remove the link data"/>
-            <Button Content="Close" Width="80" Height="28" DockPanel.Dock="Right" IsCancel="True" Click="close_click"/>
-            <Button Content="Help" Width="64" Height="28" DockPanel.Dock="Right" Margin="0,0,6,0" Click="help_click" ToolTip="Open Excel Link help (F1)"/>
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False" FontFamily="Segoe UI" FontSize="12"
+        BorderBrush="{DynamicResource XL.Border}" BorderThickness="1">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="34" ResizeBorderThickness="6" GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+    <Grid x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== Title bar (drawn by Excel Link, as in PyPiPie Rover) ===== -->
+        <Border Grid.Row="0" Height="34" Background="{DynamicResource XL.Header}" BorderBrush="{DynamicResource XL.Border}" BorderThickness="0,0,0,1">
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
+                    <Image x:Name="TitleIcon" Width="20" Height="20" Margin="0,0,8,0"/>
+                    <TextBlock Text="Excel Link" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TitleSub" Text="Links" FontSize="13" Margin="8,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource XL.SubFg}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="CapHelp" Style="{DynamicResource XL.Caption}" Content="&#xE897;" ToolTip="Help (F1)"/>
+                    <Button x:Name="CapMax" Style="{DynamicResource XL.Caption}" Content="&#xE922;" ToolTip="Maximize"/>
+                    <Button x:Name="CapClose" Style="{DynamicResource XL.CaptionClose}" Content="&#xE8BB;" ToolTip="Close" IsCancel="False"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+    <DockPanel Grid.Row="1" Margin="10">
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0" LastChildFill="False">
+                <Button Content="Update" Width="80" Height="28" Margin="0,0,6,0" Click="update_click" ToolTip="Rebuild the selected links from their workbooks"/>
+                <Button Content="Update all changed" Width="130" Height="28" Margin="0,0,6,0" Click="update_changed_click"/>
+                <Button Content="Edit..." Width="70" Height="28" Margin="0,0,6,0" Click="edit_click" ToolTip="Change workbook, sheet, range or options"/>
+                <Button Content="Open in Excel" Width="100" Height="28" Margin="0,0,6,0" Click="open_click"/>
+                <Button Content="Show" Width="70" Height="28" Margin="0,0,6,0" Click="show_click" ToolTip="Select and zoom to the group"/>
+                <Button Content="Unlink" Width="70" Height="28" Margin="0,0,6,0" Click="unlink_click" ToolTip="Keep the elements, remove the link data"/>
+                <Button Content="Close" Width="80" Height="28" DockPanel.Dock="Right" IsCancel="True" Click="close_click"/>
+            </DockPanel>
+            <TextBlock x:Name="msg_lbl" DockPanel.Dock="Bottom" Margin="0,6,0,0" TextWrapping="Wrap" Foreground="{DynamicResource XL.SubFg}"/>
+            <ListView x:Name="links_lv" SelectionMode="Extended">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Status" Width="120" DisplayMemberBinding="{Binding Status}"/>
+                        <GridViewColumn Header="View" Width="190" DisplayMemberBinding="{Binding ViewName}"/>
+                        <GridViewColumn Header="Workbook" Width="200" DisplayMemberBinding="{Binding FileName}"/>
+                        <GridViewColumn Header="Sheet / range" Width="180" DisplayMemberBinding="{Binding Source}"/>
+                        <GridViewColumn Header="Imported" Width="130" DisplayMemberBinding="{Binding Imported}"/>
+                        <GridViewColumn Header="Path" Width="320" DisplayMemberBinding="{Binding Path}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </DockPanel>
-        <TextBlock x:Name="msg_lbl" DockPanel.Dock="Bottom" Margin="0,6,0,0" TextWrapping="Wrap" Foreground="{DynamicResource XL.SubFg}"/>
-        <ListView x:Name="links_lv" SelectionMode="Extended">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Status" Width="120" DisplayMemberBinding="{Binding Status}"/>
-                    <GridViewColumn Header="View" Width="190" DisplayMemberBinding="{Binding ViewName}"/>
-                    <GridViewColumn Header="Workbook" Width="200" DisplayMemberBinding="{Binding FileName}"/>
-                    <GridViewColumn Header="Sheet / range" Width="180" DisplayMemberBinding="{Binding Source}"/>
-                    <GridViewColumn Header="Imported" Width="130" DisplayMemberBinding="{Binding Imported}"/>
-                    <GridViewColumn Header="Path" Width="320" DisplayMemberBinding="{Binding Path}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </DockPanel>
+
+        <!-- ===== Status bar with credit ===== -->
+        <Border Grid.Row="2" Background="{DynamicResource XL.Header}" BorderBrush="{DynamicResource XL.Border}" BorderThickness="0,1,0,0" Padding="10,4">
+            <DockPanel>
+                <TextBlock x:Name="VersionLabel" DockPanel.Dock="Right" Foreground="{DynamicResource XL.SubFg}"/>
+                <TextBlock DockPanel.Dock="Left" Foreground="{DynamicResource XL.SubFg}" Margin="0,0,10,0">
+                    <Run Text="Crafted by: "/><Hyperlink x:Name="CreditLink" NavigateUri="https://www.linkedin.com/in/aaronrumple/"
+                               ToolTip="Aaron Rumple on LinkedIn" Style="{DynamicResource XL.CreditLink}">Aaron Rumple, AIA</Hyperlink>
+                </TextBlock>
+                <Border DockPanel.Dock="Left" Width="1" Margin="0,2,10,2" Background="{DynamicResource XL.Border}"/>
+                <TextBlock x:Name="StatusText" Foreground="{DynamicResource XL.SubFg}" TextTrimming="CharacterEllipsis" Text="Select links with Ctrl or Shift. Press F1 for help."/>
+            </DockPanel>
+        </Border>
+    </Grid>
 </Window>
